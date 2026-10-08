@@ -1,0 +1,4 @@
+interface:
+  display_name: "ArcPy 典雅水彩地图"
+  short_description: "用 ArcGIS Pro 制作水彩区位图、圆形定位与典雅布局，并检查和导出完整图及地图框版"
+  default_prompt: "使用 $arcpy-watercolor-map 将我的 ArcGIS Pro 数据制作成典雅水彩区位图，定位说明放在圆内下部，保存项目副本并导出完整图与地图框版。"

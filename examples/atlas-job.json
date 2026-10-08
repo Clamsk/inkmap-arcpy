@@ -1,0 +1,30 @@
+{
+  "project": "input.aprx",
+  "map": "Map",
+  "output_folder": "output/atlas-new",
+  "center": [119.294, 26.086],
+  "projection": 32650,
+  "scale": 21000,
+  "title": "榕城 · 鼓楼",
+  "subtitle": "福州鼓楼区水彩区位图",
+  "english_title": "G U L O U   /   F U Z H O U",
+  "source_note": "请填入实际数据来源与日期",
+  "layers": {
+    "Buildings": "buildings",
+    "Parks": {"role": "green", "label_field": "name"},
+    "Water": "water",
+    "Roads": {"role": "roads_main", "label_field": "name"},
+    "Stations": "station"
+  },
+  "grid_seconds": 30,
+  "legend_transparency": 34,
+  "scale_transparency": 40,
+  "legend": [
+    {"layer": "Roads", "label": "主要道路"},
+    {"layer": "Water", "label": "河湖水面"},
+    {"layer": "Parks", "label": "公园绿地"},
+    {"layer": "Buildings", "label": "建筑轮廓"},
+    {"layer": "Stations", "label": "轨道站点"}
+  ],
+  "locators": []
+}

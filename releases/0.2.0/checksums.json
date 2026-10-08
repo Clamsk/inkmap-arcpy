@@ -1,0 +1,14 @@
+{
+  "inkmap_arcpy-0.2.0-py3-none-any.whl": {
+    "bytes": 298716,
+    "sha256": "cd4f24098c6170ffea3330f6a2b434de87d15325cab970bbccafea4f3ec6a399"
+  },
+  "arcpy-watercolor-map.zip": {
+    "bytes": 306487,
+    "sha256": "ab334ed66ce126fbcb61bdc8775ef6b0cd1d42c36a29b034e4fc75cb7e708ea0"
+  },
+  "inkmap-source.zip": {
+    "bytes": 7386684,
+    "sha256": "a0cb3ea1858659d41b6119670b7501eee86c75a8c3306f2e60e8172fe4e84418"
+  }
+}

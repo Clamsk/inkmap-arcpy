@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "inkmap-arcpy"
+version = "0.2.0"
+description = "Native ArcGIS Pro watercolor and ink cartography with embedded textures"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [{name = "InkMap contributors"}]
+dependencies = []
+
+[project.scripts]
+inkmap = "inkmap_arcpy.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+inkmap_arcpy = ["assets/generated-*.png", "assets/generated-*.jpeg", "assets/*.md"]

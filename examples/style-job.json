@@ -1,0 +1,20 @@
+{
+  "project": "input.aprx",
+  "map": "Map",
+  "palette": "watercolor",
+  "texture_size": 72,
+  "replace_renderer": false,
+  "layers": {
+    "Water": "water",
+    "Green Space": "green",
+    "Buildings": "buildings",
+    "Main Roads": "roads_main",
+    "Other Roads": "roads_other",
+    "Subway Stations": "station",
+    "Site": "site",
+    "Distance Rings": "buffer"
+  },
+  "output_project": "output/styled.aprx",
+  "layout": "Layout",
+  "export": {"path": "output/map.png", "dpi": 300}
+}

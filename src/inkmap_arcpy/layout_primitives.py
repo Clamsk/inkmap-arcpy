@@ -65,8 +65,8 @@ def update_labels(layer, font, size, rgb, priority):
         ts.fontStyleName = "Regular"
         ts.height = size
         ts.symbol = polygon(rgb)
-        ts.haloSymbol = polygon(PAPER,94)
-        ts.haloSize = 0.7
+        ts.haloSymbol = polygon(PAPER,84)
+        ts.haloSize = 0.4
         label.priority = priority
     layer.setDefinition(d)
 

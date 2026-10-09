@@ -38,4 +38,11 @@ class AtlasConfigTests(unittest.TestCase):
         self.assertEqual(dms(-26.5,'N'),'26°30′00″S')
         self.assertEqual(dms(26+59/60+59.9999/3600,'N'),'27°00′00″N')
 
+    def test_three_column_capacity(self):
+        job=self.job()
+        job['layers']={f'Layer{i}':'water' for i in range(15)}
+        validate_atlas_config(job)
+        job['layers']['Layer15']='green'
+        with self.assertRaises(ValueError): validate_atlas_config(job)
+
 if __name__=='__main__': unittest.main()

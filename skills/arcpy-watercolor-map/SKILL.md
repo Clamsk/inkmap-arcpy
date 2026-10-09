@@ -9,23 +9,25 @@ description: 使用 ArcGIS Pro 3.x 的 ArcPy 和 inkmap-arcpy 制作湿墨泼染
 
 ## 环境与绑定
 
-- 用已授权的 ArcGIS Pro Python 运行 `python -m inkmap_arcpy doctor`。先使用现有可用环境；安装时用 `python -m pip install --upgrade --no-deps <skill目录>/assets/inkmap_arcpy-0.3.0-py3-none-any.whl`，优先 Pro 克隆环境。
+- 用已授权的 ArcGIS Pro Python 运行 `python -m inkmap_arcpy doctor`。先使用现有可用环境；安装时用 `python -m pip install --upgrade --no-deps <skill目录>/assets/inkmap_arcpy-0.4.0-py3-none-any.whl`，优先 Pro 克隆环境。
 - 运行 `python -m inkmap_arcpy inspect <project.aprx>` 获取确切地图名、图层 `longName` 和布局名。`CURRENT` 只适用于 Pro 内部窗口或 Notebook。
 - 以真实内容绑定角色，检查数据源、筛选、标签字段和几何。缺失资料时先推进独立工作，再询问必要信息。保持输入项目与数据，输出到新目录。
 
 ## 选择流程
 
-**完整典雅版式**：使用 [references/atlas.md](references/atlas.md) 的 `atlas` JSON 流程。它将筛选要素复制进独立 GDB、统一符号并创建 A4 竖版布局。先 `atlas job.json --dry-run`，再运行正式命令。图层按 JSON 顺序从底到顶绘制；图例最多十项、定位圈最多三个。
+**完整典雅版式**：使用 [references/atlas.md](references/atlas.md) 的 `atlas` JSON 流程。它将筛选要素复制进独立 GDB、统一符号并创建 A4 竖版布局。先 `atlas job.json --dry-run`，再运行正式命令。图层按 JSON 顺序从底到顶绘制；图例最多十五项、定位圈最多三个。
 
 **调整现有项目**：使用 [references/workflow.md](references/workflow.md) 的 `style` 命令或 `apply_style`。它保留标签、定义查询和既有布局，不自动排序。分类渲染默认拒绝；只有用户意图支持时才显式替换。样式细节见 [references/style.md](references/style.md)。
 
 ## 风格与地理规则
 
-1. 默认使用 0.3.0 所选柔和湿墨材质：浓淡自然交融，纸感隐约，边缘藏在墨色里。水体和绿地按淡轮廓、渐变外缘、透明白墨、半透明底色、独立纸纹五层叠放。优先在实际地图中微调底色、图片层不透明度及纹理尺度，保持墨色的大块过渡；此默认主题不主动增加咖啡环、圆弧描线或细密颗粒。用户明确需要其他风格时按其要求调整。512像素材质不声称是原生2048仿真；地图导出dpi与材质像素不同。需要换材质时先看色块和真实地图，遵守用户先检查的流程。参数与素材来源见 [references/style.md](references/style.md)。
-2. 标题华文宋体，地名华文楷体，数字和英文 Garamond。图例两列放在地图框内；图例底板默认 34% 透明度、比例尺 40%。缺字体时先检查环境，替代字体需整套统一。
+1. 0.4.0 沿用 0.3.0 所选柔和湿墨材质：浓淡自然交融，纸感隐约，边缘藏在墨色里。水体和绿地按淡轮廓、渐变外缘、透明白墨、半透明底色、独立纸纹五层叠放。优先在实际地图中微调底色、图片层不透明度及纹理尺度，保持墨色的大块过渡；此默认主题不主动增加咖啡环、圆弧描线或细密颗粒。用户明确需要其他风格时按其要求调整。512像素材质不声称是原生2048仿真；地图导出dpi与材质像素不同。需要换材质时先看色块和真实地图，遵守用户先检查的流程。参数与素材来源见 [references/style.md](references/style.md)。
+2. 标题华文宋体，地名华文楷体，数字和英文 Garamond。图例三列放在地图框内；图例底板默认 38% 透明度、比例尺 40%。缺字体时先检查环境，替代字体需整套统一。
 3. 制图中心坐标只用于取景，默认不加中心标记。需要场地或距离圈时使用用户指定真实位置；距离圈必须在适合当地的投影中按米生成，明确区别欧氏距离与路网可达。
 4. 定位圈使用来源明确的真实边界，按代码高亮。全国—省、省—市、市—区的说明放在每个圆形**内部下部**。完整边界须落在圆内；定位底图用于宏观位置，不混作精确街区数据。
 5. 真北指针与米制比例尺关联主地图框。虚线经纬网使用 WGS84；边缘标注在投影后的真实交点。Pro 3.0 不具有 `createMap` / `createLayout`，包使用安装模板与布局级 CIM；不能假定新版 API 可用。
+
+主路采用纸白内线与灰青外沿，支路淡暖灰连续线，步道更细的连续线。建筑薄墨灰；真实居住面极淡暖灰；仅有真实数据时加入淡赭广场与灰褐历史建筑。轨道站点用4点空心灰青圈和纸白中心，地标暖墨圈配暗朱砂中心，社区小空心墨圈；街区点只标注。不要将社区点误绑定为轨道站点。角色参数见 style 参考；材质处理、来源与分享文件见 [references/materials.md](references/materials.md)。
 
 ## 导出与验收
 

@@ -40,7 +40,7 @@ def validate_atlas_config(config):
         raise ValueError("center must be finite WGS84 [longitude, latitude] within -180..180 / -85..85")
     for key,default,minimum,maximum in [("scale",None,100,1e8),("grid_seconds",30,1,3600),
                                        ("dpi",240,72,1200),("texture_size",112,1,1000),
-                                       ("legend_transparency",34,0,90),("scale_transparency",40,0,90)]:
+                                       ("legend_transparency",38,0,90),("scale_transparency",40,0,90)]:
         value = config.get(key,default)
         if isinstance(value,bool) or not isinstance(value,(int,float)) or not math.isfinite(value) or not minimum<=value<=maximum:
             raise ValueError(f"{key} must be finite in {minimum}..{maximum}")
@@ -50,8 +50,8 @@ def validate_atlas_config(config):
         raise ValueError("Layer descriptors must be roles or objects")
     legends = config.get("legend",[{"layer":name,"label":name} for name,value in config["layers"].items()
                                  if (value if isinstance(value,str) else value.get("role"))!="paper"])
-    if not isinstance(legends,list) or len(legends)>10:
-        raise ValueError("The inset legend supports up to ten items; provide a shorter legend list")
+    if not isinstance(legends,list) or len(legends)>15:
+        raise ValueError("The three-column inset legend supports up to fifteen items")
     for item in legends:
         if not isinstance(item,dict) or set(item)!={"layer","label"} or item["layer"] not in config["layers"]:
             raise ValueError("Each legend item needs a bound layer and a label")
@@ -150,8 +150,11 @@ def compose_atlas(config,dry_run=False):
     for layer in m.listLayers():
         m.removeLayer(layer)
     layers,roles,counts = {},{},{}
-    defaults = {"green":("STKaiti",9,(53,98,71),2),"roads_main":("STSong",6.2,(110,136,144),9),
-                "station":("STKaiti",8.4,(140,109,73),2),"buildings":("STSong",7.8,(124,118,95),4)}
+    warm = (117,109,93)
+    defaults = {"green":("STKaiti",9,warm,2),"roads_main":("STSong",6.2,warm,9),
+                "station":("STKaiti",8.4,warm,2),"buildings":("STSong",7.8,warm,4),
+                "site":("STKaiti",8.4,warm,2),"community":("STKaiti",7.5,warm,4),
+                "place_label":("STKaiti",8,warm,4)}
     for i,(name,source_layer,descriptor) in enumerate(bindings):
         target = str(Path(gdb)/f"layer_{i:03d}")
         source_count = int(arcpy.management.GetCount(source_layer)[0])
@@ -247,8 +250,11 @@ def compose_atlas(config,dry_run=False):
     bar.graphicFrame.borderSymbol=None
     bar.graphicFrame.shadowSymbol=None
     surround.elements=[bar]
+    legends=config.get("legend",[{"layer":name,"label":name} for name in layers if roles[name]!="paper"])
+    legend_height = .95 + math.ceil(len(legends)/3)*.50
+    legend_top = 2.82 + legend_height
     graphics=[rectangle("Page paper",0,0,21,29.7,PAPER,100),main_def,
-              rectangle("Legend paper",1.45,2.82,6.70,4.22,PAPER,100-config.get("legend_transparency",34),(183,187,166)),
+              rectangle("Legend paper",1.45,2.82,9.60,legend_height,PAPER,100-config.get("legend_transparency",38),(183,177,160)),
               rectangle("Scale paper",13.7,2.08,5.8,1.62,PAPER,100-config.get("scale_transparency",40)),
               text("Title",config["title"],10.5,28.95,30,"STSong",INK,"Center",3),
               text("English title",config.get("english_title","W A T E R C O L O R   A T L A S"),10.5,27.46,8.5,"Garamond",MUTED,"Center"),
@@ -256,19 +262,16 @@ def compose_atlas(config,dry_run=False):
               line("Header rule",[[1,26.30],[8.8,26.30]],MUTED,0.3,70),
               line("Header rule right",[[12.2,26.30],[20,26.30]],MUTED,0.3,70),
               text("Header caption",config.get("caption","街巷 · 园林 · 水脉"),10.5,26.52,7.2,"STSong",MUTED,"Center"),
-              text("Legend title","图 例",1.85,6.66,12.5,"STKaiti"),
-              text("Legend english","L E G E N D",7.75,6.50,7,"Garamond",MUTED,"Right"),
-              line("Legend rule",[[1.85,6.14],[7.75,6.14]],MUTED,0.3,65),
+              text("Legend title","图 例",1.85,legend_top-.33,12.5,"STKaiti"),
+              text("Legend english","L E G E N D",10.65,legend_top-.43,7,"Garamond",MUTED,"Right"),
+              line("Legend rule",[[1.85,legend_top-.70],[10.65,legend_top-.70]],MUTED,0.3,65),
               text("Compass N","N",2.05,25.24,10,"Garamond",INK,"Center"),
               text("Scale caption","米制比例尺",16.55,3.55,7.3,"STSong",MUTED,"Center"),
               text("Source",config.get("source_note",""),1,0.70,6.3,"STSong",MUTED),
               text("Frame attribution",config.get("source_note",""),1.13,1.91,5.8,"STSong",MUTED)]
-    legends=config.get("legend",[{"layer":name,"label":name} for name in layers if roles[name]!="paper"])
-    if len(legends)>10:
-        raise ValueError("The inset legend supports up to ten items; provide a shorter legend list")
     for i,item in enumerate(legends):
         layer=layers[item["layer"]]
-        x,y=1.86+(i%2)*3.08,5.79-(i//2)*0.55
+        x,y=1.86+(i%3)*3.08,legend_top-.93-(i//3)*0.50
         symbol=layer.getDefinition("V3").renderer.symbol
         shape=arcpy.Describe(layer).shapeType
         if shape=="Point":

@@ -1,5 +1,5 @@
 """ArcPy is imported lazily, so palettes/configuration work in normal Python."""
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
 from .palettes import Palette, get_palette
 from .symbols import apply_style

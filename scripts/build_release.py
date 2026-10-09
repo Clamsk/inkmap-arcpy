@@ -44,7 +44,7 @@ archive(dist / "arcpy-watercolor-map.zip", skill.rglob("*"), skill.parent)
 files = [root / name for name in ("README.md", "LICENSE", "pyproject.toml", ".gitignore")]
 for folder in ("src/inkmap_arcpy", "skills/arcpy-watercolor-map", "tests", "docs", "materials/selected-wet-ink"):
     files.extend((root / folder).rglob("*"))
-files.extend(root/'scripts'/name for name in ('build_release.py','extract_selected_materials.py'))
+files.extend(root/'scripts'/name for name in ('build_release.py','extract_selected_materials.py','package_v040.py'))
 files.extend([root / "examples/current_project.py", root / "examples/style-job.json",root / "examples/atlas-job.json"])
 files.extend(root/"examples/fuzhou"/name for name in ("download_osm.py","download_locators.py","download_parks.py",
               "prepare_data.py","build_map.py","build_atlas.py","validate_output.py"))
@@ -52,7 +52,7 @@ files.append(root/"examples/fuzhou/README.md")
 files.extend(root/'examples/two_cities'/name for name in (
     'README.md','cities.py','download_data.py','download_la_tiles.py','prepare_data.py',
     'build_maps.py','city_frames.py','post_cards.py','validate_maps.py','package_post.py',
-    'toolkit_cards.py','package_toolkit_post.py','import_sample_data.py'))
+    'toolkit_cards.py','package_toolkit_post.py','import_sample_data.py','release_cards.py'))
 archive(dist / "inkmap-source.zip", files, root)
 manifest = {p.name: {"bytes":p.stat().st_size, "sha256":hashlib.sha256(p.read_bytes()).hexdigest()}
             for p in (dist/wheel_name,dist/"arcpy-watercolor-map.zip",dist/"inkmap-source.zip")}

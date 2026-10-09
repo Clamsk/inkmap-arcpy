@@ -1,0 +1,26 @@
+{
+  "arcpy-watercolor-map.zip": {
+    "bytes": 443674,
+    "sha256": "424dead6805a5c0d072e5288318c643873f061ff978dcbe5cae4438655223de7"
+  },
+  "inkmap-materials.zip": {
+    "bytes": 7283897,
+    "sha256": "a07bb73c540b80c980aadb1a05a599cfa89eac7b3219ef17a1a858ebc6453131"
+  },
+  "inkmap-source.zip": {
+    "bytes": 34911249,
+    "sha256": "a4a80f1b53222f2985d933e181849ee3a8b10dda4e1f21529387487dabadaeee"
+  },
+  "inkmap-toolkit-three-cities.zip": {
+    "bytes": 50779679,
+    "sha256": "7d27d216bd2902e8c60d9b749ffcf9aa3366e73be0553581d014709a176f9c47"
+  },
+  "inkmap_arcpy-0.4.0-py3-none-any.whl": {
+    "bytes": 432234,
+    "sha256": "328f5c0a6d47612a0fea17de0375e514f452e47b9880e3a48b8214da32f4e47d"
+  },
+  "xiaohongshu-post.zip": {
+    "bytes": 18045493,
+    "sha256": "d7c426653af68a8440fa0c3bdcd2f0e51adaf85cceb33d70f4721ca5d7dfcba8"
+  }
+}

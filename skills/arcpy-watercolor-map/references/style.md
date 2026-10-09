@@ -6,14 +6,20 @@
 |---|---|---|
 | water | Polygon | 蓝色水体，五层符号 |
 | green | Polygon | 绿色绿地，五层符号 |
-| buildings | Polygon | 低对比度淡灰建筑 |
+| buildings | Polygon | 薄墨灰填色23%，轮廓0.065pt/10% |
 | paper | Polygon | 研究范围纸底，需要用户自己的范围面 |
-| roads_main | Polyline | 白色道路内线与浅蓝外沿 |
-| roads_other | Polyline | 更细、更淡道路 |
+| roads_main | Polyline | 纸白内线1.08pt/100%，灰青外沿1.85pt/78% |
+| roads_other | Polyline | 淡暖灰支路0.44pt/44%，连续线 |
+| walk | Polyline | 淡暖灰步道0.22pt/25%，连续线 |
+| water_line | Polyline | 浅青河沟0.85pt/65% |
+| residential | Polygon | 极淡暖灰填色5% |
+| plaza / heritage | Polygon | 真实广场淡赭34% / 历史建筑灰褐36%，五层洗染 |
+| community | Point | 小空心墨圈2.8pt |
+| place_label | Point | 不可见点，保留地名标注 |
 | buffer | Polyline | 蓝色虚线距离圈；先把缓冲面转为边界线 |
 | boundary | Polyline | 灰色虚线边界 |
-| station | Point | 小圆形站点 |
-| site | Point | 深蓝或深墨十字场地标记 |
+| station | Point | 空心灰青圈4pt，圈线0.40pt/88%，纸白中心 |
+| site | Point | 暖墨圈6.5pt与暗朱砂中心 |
 
 水体/绿地的 `CIMPolygonSymbol.symbolLayers` 从上至下：
 
@@ -27,7 +33,7 @@ CIM RGBA 的第四项是 0–100 的不透明度；PNG alpha 是 0–255。它�
 
 默认审美重点是柔和湿墨铺染、浓淡相融与大块过渡。边界若隐若现，纸纹轻微；不能因想强调水墨而主动画闭合圈、加密颗粒或锐化。微调优先改变地图底色、层不透明度和铺排尺度。用户需要明确积墨、飞白等其他风格时再采用相应处理。替换素材先看单层、叠放色块与真实面要素，确认后批量更新。实际检查铺排接缝，不宣称未经验证的无缝效果；保持道路与地名可读。
 
-`texture_size=72` 是每块墨纹72 pt的高度，在页面上约25.4 mm；`atlas` 默认112 pt，以保留较大的墨色过渡，纸纹约72 pt。112 pt在300 dpi约467像素，可利用512素材；提高导出dpi不增加原材质细节。纸底的图片不透明度为30%。`wash_path` 可替换方形透明PNG，`paper_path` 可替换方形纸纹PNG/JPEG。包把图片作为base64写入CIM，移动APRX/LYRX无需查找材质路径，GIS数据仍须搬移或打包。
+`texture_size=72` 是每块墨纹72 pt的高度，在页面上约25.4 mm；`atlas` 默认112 pt，以保留较大的墨色过渡，纸纹约72 pt。112 pt在300 dpi约467像素，可利用512素材；提高导出dpi不增加原材质细节。纸底的图片不透明度为35%。`wash_path` 可替换方形透明PNG，`paper_path` 可替换方形纸纹PNG/JPEG。包把图片作为base64写入CIM，移动APRX/LYRX无需查找材质路径，GIS数据仍须搬移或打包。
 
 素材由Washes湿媒体引擎的已保存沉积量和纸面高度分别提取，非实物扫描。源码materials/selected-wet-ink保存来源、参数、原始场和第三方署名；scripts/extract_selected_materials.py可复现提取。Agent制图使用预生成PNG，运行时不安装Node或任何仿真依赖。模型未按特定墨汁的实测黏度与表面张力标定。
 

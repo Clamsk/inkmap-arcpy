@@ -13,3 +13,5 @@ python scripts/extract_selected_materials.py output-materials
 两张输出的像素与默认素材一致。此步骤从保存场提取图像，不重跑或重建仿真；地图使用者不需要执行它。保留原选画布，未宣称它完全无缝。112点墨纹在300dpi下约467像素，可利用512像素素材，增加页面输出dpi不增加原始材质的细节。
 
 默认地图样式仅微调符号的外缘、墨纹铺排尺度与纸感可见度，底色保持原蓝绿配色。湿媒体引擎未按某款墨汁的实测物性标定。
+
+0.4.0 开放两张可直接使用的 `white-ink.png` / `paper.png`、三遍 `dry-stage-*.png` 原预览和 `dry-glazes.npz`（各遍沉积 layer_1..3、累积 stage_1..3）。文件说明、叠层规则和处理思路见 [完整教程](../../docs/ink-materials.md)。默认素材与0.3.0字节一致；新的地图表达保留了该墨纹。许可见本目录 LICENSE 与 WASHES-LICENSE。

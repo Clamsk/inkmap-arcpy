@@ -17,7 +17,7 @@
     "Stations": "station"
   },
   "grid_seconds": 30,
-  "legend_transparency": 34,
+  "legend_transparency": 38,
   "scale_transparency": 40,
   "legend": [
     {"layer": "Roads", "label": "主要道路"},

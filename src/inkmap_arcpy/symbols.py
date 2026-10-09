@@ -62,28 +62,35 @@ def polygon_symbol(role, palette, texture_size=112, wash_path=None, paper_path=N
     paper_path = paper_path or assets / "generated-white-paper.png"
     p = get_palette(palette)
     if role == "paper":
-        return cim("CIMPolygonSymbol", symbolLayers=[picture(paper_path, texture_size * .64, 30), fill(p.paper)])
+        return cim("CIMPolygonSymbol", symbolLayers=[picture(paper_path, texture_size * .64, 35), fill(p.paper)])
     if role == "buildings":
-        return cim("CIMPolygonSymbol", symbolLayers=[stroke(p.building, 0.10, 30), fill(p.building, 48)])
-    rgb = p.water if role == "water" else p.green
-    ramp = cim("CIMLinearContinuousColorRamp", fromColor=color(rgb, 34),
+        return cim("CIMPolygonSymbol", symbolLayers=[stroke((177,174,161), 0.065, 10), fill(p.building, 23)])
+    if role == "residential":
+        return cim("CIMPolygonSymbol", symbolLayers=[fill(p.residential, 5)])
+    rgb = {"water":p.water,"green":p.green,"plaza":p.plaza,"heritage":p.heritage}[role]
+    warm = role in {"plaza", "heritage"}
+    ramp = cim("CIMLinearContinuousColorRamp", fromColor=color(rgb, 18 if warm else 34),
                toColor=color(rgb, 0), colorSpace=cim("CIMICCColorSpace", url="Default RGB"))
-    bleed = cim("CIMGradientStroke", enable=True, width=1.7, colorRamp=ramp,
+    bleed = cim("CIMGradientStroke", enable=True, width=.8 if warm else 1.7, colorRamp=ramp,
                 gradientMethod="AcrossLine", gradientType="Continuous",
                 gradientSize=100.0, gradientSizeUnits="Relative", capStyle="Round", joinStyle="Round")
     # First symbol layer is drawn above subsequent layers. Keep wet ink ABOVE tint.
     # Ink and paper are independent images; retain the approved PNG's real alpha.
     return cim("CIMPolygonSymbol", symbolLayers=[
-        stroke(rgb, 0.16, 24), bleed, picture(wash_path, texture_size, 100),
-        fill(rgb, 72), picture(paper_path, texture_size * .64, 100)])
+        stroke(rgb, .10 if warm else .16, 16 if warm else 24), bleed, picture(wash_path, texture_size, 100),
+        fill(rgb, 34 if role == "plaza" else 36 if role == "heritage" else 72), picture(paper_path, texture_size * .64, 100)])
 
 
 def line_symbol(role, palette):
     p = get_palette(palette)
     if role == "roads_main":
-        layers = [stroke((255, 255, 255), 1.0, 100), stroke(p.road, 1.85, 74)]
+        layers = [stroke(p.paper, 1.08, 100), stroke(p.road, 1.85, 78)]
     elif role == "roads_other":
-        layers = [stroke((255, 255, 255), 0.55, 95), stroke(p.road, 1.0, 42)]
+        layers = [stroke(p.minor, .44, 44)]
+    elif role == "walk":
+        layers = [stroke(p.minor, .22, 25)]
+    elif role == "water_line":
+        layers = [stroke(p.water, .85, 65)]
     elif role == "buffer":
         layers = [stroke(p.accent, 0.9, 85, (7, 4))]
     else:
@@ -93,19 +100,23 @@ def line_symbol(role, palette):
 
 def point_symbol(role, palette):
     p = get_palette(palette)
-    if role == "site":
-        ring = [(-1,-4),(1,-4),(1,-1),(4,-1),(4,1),(1,1),(1,4),(-1,4),(-1,1),(-4,1),(-4,-1),(-1,-1),(-1,-4)]
-        layers = [stroke((255,255,255), 0.45), fill(p.accent)]
-        size = 13
+    ring = [[math.cos(i*math.pi/32),math.sin(i*math.pi/32)] for i in range(65)]
+    if role == "station":
+        layers,size = [stroke(p.station,.40,88),fill(p.paper,100)],4.0
+    elif role == "site":
+        layers,size = [stroke(p.ink,.38,100),fill(p.paper,96)],6.5
+    elif role == "community":
+        layers,size = [stroke(p.ink,.28,100),fill(p.paper,96)],2.8
     else:
-        ring = [(3*math.cos(t*math.pi/24),3*math.sin(t*math.pi/24)) for t in range(49)]
-        layers = [stroke(p.accent, 0.5, 75), fill(p.road, 78)]
-        size = 4.5
-    graphic = cim("CIMMarkerGraphic", geometry={"rings": [ring]},
-                  symbol=cim("CIMPolygonSymbol", symbolLayers=layers))
+        layers,size = [fill(p.paper,0)],2.8
+    graphics = [cim("CIMMarkerGraphic", geometry={"rings": [ring]},
+                   symbol=cim("CIMPolygonSymbol", symbolLayers=layers))]
+    if role == "site":
+        graphics.append(cim("CIMMarkerGraphic",geometry={"rings":[[[.36*x,.36*y] for x,y in ring]]},
+                            symbol=cim("CIMPolygonSymbol",symbolLayers=[fill(p.accent,94)])))
     marker = cim("CIMVectorMarker", enable=True, size=size,
-                 frame={"xmin": -4, "ymin": -4, "xmax": 4, "ymax": 4},
-                 markerGraphics=[graphic], respectFrame=True, scaleSymbolsProportionally=True)
+                 frame={"xmin": -1.1, "ymin": -1.1, "xmax": 1.1, "ymax": 1.1},
+                 markerGraphics=graphics, respectFrame=True, scaleSymbolsProportionally=True)
     return cim("CIMPointSymbol", symbolLayers=[marker])
 
 

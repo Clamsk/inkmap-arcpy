@@ -1,0 +1,22 @@
+{
+  "version": "0.4.0",
+  "date": "2026-10-09",
+  "runtime": "Windows, licensed ArcGIS Pro 3.0 Advanced, CIM V3",
+  "unit_tests": {"passed": 8},
+  "sdk_cases": {
+    "fuzhou": {"source_layers": 15, "bound_layers": 14, "broken_connections": 0},
+    "shanghai": {"source_layers": 13, "bound_layers": 13, "broken_connections": 0},
+    "losangeles": {"source_layers": 14, "bound_layers": 14, "broken_connections": 0}
+  },
+  "scope": [
+    "Three cities imported from the new public OSM bundle and rendered by the SDK",
+    "Full/frame/map-only exports and reloaded APRX, feature counts preserved",
+    "True north and metric scale linkage, WGS84 grid, no automatic center marker",
+    "Actual saved station/walk/road/building/residential/legend parameters checked",
+    "Generic SDK jobs have no locators; approved city-framing case maps retain previously verified real-boundary locators",
+    "Selected ink and paper unchanged; saved-field extraction pixel-identical",
+    "Wheel installed in isolated directory and loaded by ArcGIS Pro Python",
+    "Skill frontmatter validated with skill-creator quick_validate.py"
+  ],
+  "limitations": ["Other Pro 3.x minor versions not tested", "512x512 material is not claimed seamless", "Macro locator source caches and fonts are not redistributed"]
+}

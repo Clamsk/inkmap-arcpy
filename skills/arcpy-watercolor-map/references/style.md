@@ -17,15 +17,19 @@
 
 水体/绿地的 `CIMPolygonSymbol.symbolLayers` 从上至下：
 
-1. `CIMSolidStroke`，0.22 pt，38% 不透明度。
-2. `CIMGradientStroke`，2.0 pt，连续跨线渐变，颜色从 46% 不透明度到 0%。
-3. `CIMPictureFill`，半透明白色水彩纹理，82% tint alpha。
+1. `CIMSolidStroke`，0.16 pt，24% 不透明度。
+2. `CIMGradientStroke`，1.7 pt，连续跨线渐变，颜色从 34% 不透明度到 0%。
+3. `CIMPictureFill`，纯白 RGB、变化 alpha 的柔和湿墨纹理 generated-wet-ink.png，100% tint alpha。
 4. `CIMSolidFill`，72% 不透明度，蓝或绿。
-5. `CIMPictureFill`，纸张纹理，100% tint alpha。
+5. `CIMPictureFill`，独立纸纹 generated-white-paper.png，100% tint alpha；纸纹尺度为墨纹的0.64倍。
 
-CIM RGBA 的第四项是 0–100 的不透明度；PNG alpha 是 0–255。它们不是同一个单位。水彩纹理 RGB 全白，但 alpha 有变化，叠在颜色上才显示。
+CIM RGBA 的第四项是 0–100 的不透明度；PNG alpha 是 0–255。它们不是同一个单位。所选透明白材质的 RGB 全为255，浓淡只编码在alpha中：浓墨对应较少白色覆盖。两张图均为512×512；透明墨纹在黑底观察，地图里由半透明颜色与独立纸纹托底。100%的CIM图像不透明度保留PNG自身的alpha变化，不表示该层每个像素都不透明。
 
-`texture_size=72` 是每块纹理 72 pt 的高度，在页面上约 25.4 mm；放大值会使水彩块更大，不改变地图几何。`wash_path` 可替换正方形无缝透明 PNG；`paper_path` 可替换正方形无缝纸纹 PNG/JPEG。包把纹理作为 base64 写入 CIM，移动 `.aprx`/`.lyrx` 无须再寻找纹理路径，但 GIS 数据源仍须一同搬移或打包。
+默认审美重点是柔和湿墨铺染、浓淡相融与大块过渡。边界若隐若现，纸纹轻微；不能因想强调水墨而主动画闭合圈、加密颗粒或锐化。微调优先改变地图底色、层不透明度和铺排尺度。用户需要明确积墨、飞白等其他风格时再采用相应处理。替换素材先看单层、叠放色块与真实面要素，确认后批量更新。实际检查铺排接缝，不宣称未经验证的无缝效果；保持道路与地名可读。
+
+`texture_size=72` 是每块墨纹72 pt的高度，在页面上约25.4 mm；`atlas` 默认112 pt，以保留较大的墨色过渡，纸纹约72 pt。112 pt在300 dpi约467像素，可利用512素材；提高导出dpi不增加原材质细节。纸底的图片不透明度为30%。`wash_path` 可替换方形透明PNG，`paper_path` 可替换方形纸纹PNG/JPEG。包把图片作为base64写入CIM，移动APRX/LYRX无需查找材质路径，GIS数据仍须搬移或打包。
+
+素材由Washes湿媒体引擎的已保存沉积量和纸面高度分别提取，非实物扫描。源码materials/selected-wet-ink保存来源、参数、原始场和第三方署名；scripts/extract_selected_materials.py可复现提取。Agent制图使用预生成PNG，运行时不安装Node或任何仿真依赖。模型未按特定墨汁的实测黏度与表面张力标定。
 
 自定义配色：
 

@@ -1,4 +1,4 @@
-"""Reproduce the public 0.2 Gulou theme after downloading and preparing example data."""
+"""Reproduce the selected soft wet-ink Gulou theme from prepared example data."""
 import argparse,json,os
 from pathlib import Path
 from inkmap_arcpy import compose_atlas
@@ -20,7 +20,7 @@ def gulou_job(project,map_name,output):
              ('地铁站点','地铁站点'),('建筑轮廓','建筑轮廓'),('社区名称点（OSM）','社区名称点'),('居住区范围（OSM）','居住区范围')]
     job=dict(project=os.path.abspath(project),map=map_name,output_folder=os.path.abspath(output),layers=layers,
              center=[119.294,26.086],scale=21000,projection=32650,title='榕城 · 鼓楼',
-             english_title='G U L O U   /   F U Z H O U',subtitle='福州鼓楼区水彩区位图',
+             english_title='G U L O U   /   F U Z H O U',subtitle='福州鼓楼区水墨区位图',caption='湖山相映 · 街巷相连',
              source_note='© OpenStreetMap contributors · ODbL  |  定位 GeoAtlas 2021 · 学习示例',
              legend=[dict(layer=name,label=label) for name,label in legends],locators=[])
     for code,caption,highlight,projection,step in [('100000','全国 · 福建','350000',102012,10),

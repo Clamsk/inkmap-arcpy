@@ -16,7 +16,7 @@ python -m inkmap_arcpy style 'D:\GIS\job.json'
   "project": "input.aprx",
   "map": "Map",
   "palette": "watercolor",
-  "texture_size": 72,
+  "texture_size": 112,
   "layers": {"Water": "water", "Green Space": "green", "Roads": "roads_main"},
   "output_project": "output/watercolor.aprx",
   "layout": "Layout",

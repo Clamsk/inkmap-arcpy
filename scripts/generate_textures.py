@@ -1,4 +1,4 @@
-"""Create original periodic watercolor/paper textures; never reads reference images."""
+"""Legacy 0.2 spectral textures, not the 0.3 default approved wet-ink materials."""
 import json
 from pathlib import Path
 import numpy as np

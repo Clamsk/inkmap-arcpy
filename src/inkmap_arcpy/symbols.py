@@ -56,25 +56,26 @@ def picture(path, height, opacity=100):
                scaleX=1.0, tintColor=color((255, 255, 255), opacity))
 
 
-def polygon_symbol(role, palette, texture_size=72, wash_path=None, paper_path=None):
+def polygon_symbol(role, palette, texture_size=112, wash_path=None, paper_path=None):
     assets = Path(__file__).parent / "assets"
-    wash_path = wash_path or assets / "generated-wash.png"
-    paper_path = paper_path or assets / "generated-paper.jpeg"
+    wash_path = wash_path or assets / "generated-wet-ink.png"
+    paper_path = paper_path or assets / "generated-white-paper.png"
     p = get_palette(palette)
     if role == "paper":
-        return cim("CIMPolygonSymbol", symbolLayers=[picture(paper_path, texture_size, 48), fill(p.paper)])
+        return cim("CIMPolygonSymbol", symbolLayers=[picture(paper_path, texture_size * .64, 30), fill(p.paper)])
     if role == "buildings":
         return cim("CIMPolygonSymbol", symbolLayers=[stroke(p.building, 0.10, 30), fill(p.building, 48)])
     rgb = p.water if role == "water" else p.green
-    ramp = cim("CIMLinearContinuousColorRamp", fromColor=color(rgb, 46),
+    ramp = cim("CIMLinearContinuousColorRamp", fromColor=color(rgb, 34),
                toColor=color(rgb, 0), colorSpace=cim("CIMICCColorSpace", url="Default RGB"))
-    bleed = cim("CIMGradientStroke", enable=True, width=2.0, colorRamp=ramp,
+    bleed = cim("CIMGradientStroke", enable=True, width=1.7, colorRamp=ramp,
                 gradientMethod="AcrossLine", gradientType="Continuous",
                 gradientSize=100.0, gradientSizeUnits="Relative", capStyle="Round", joinStyle="Round")
-    # First symbol layer is drawn above subsequent layers. Keep white wash ABOVE tint.
+    # First symbol layer is drawn above subsequent layers. Keep wet ink ABOVE tint.
+    # Ink and paper are independent images; retain the approved PNG's real alpha.
     return cim("CIMPolygonSymbol", symbolLayers=[
-        stroke(rgb, 0.22, 38), bleed, picture(wash_path, texture_size, 82),
-        fill(rgb, 72), picture(paper_path, texture_size, 100)])
+        stroke(rgb, 0.16, 24), bleed, picture(wash_path, texture_size, 100),
+        fill(rgb, 72), picture(paper_path, texture_size * .64, 100)])
 
 
 def line_symbol(role, palette):
@@ -120,7 +121,7 @@ def validate_layer(layer, role, replace_renderer=False):
         raise ValueError(f"{layer.name}: categorized/graduated renderer; set replace_renderer=True only if intentional")
 
 
-def apply_style(layer, role, palette="watercolor", texture_size=72,
+def apply_style(layer, role, palette="watercolor", texture_size=112,
                 wash_path=None, paper_path=None, replace_renderer=False):
     """Style one layer; retains data, filters and labels. Replaces a single symbol."""
     p = get_palette(palette)

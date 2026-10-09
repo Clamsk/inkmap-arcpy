@@ -1,20 +1,22 @@
-# InkMap ArcPy · 典雅水彩区位图
+# InkMap ArcPy · 水墨水彩区位图
 
 ArcGIS Pro 的 Python 制图包与 AI Agent skill。使用原生 CIM 叠层符号、真实要素数据和可编辑布局，复用蓝绿水彩、纸底、宋体标题、楷体地名与 Garamond 数字的风格。Agent 指使用 ArcPy 的 AI Agent。
 
 ![福州鼓楼示例](docs/images/gulou-full.png)
 
-**0.2.0** 新增 `atlas`：配置图层、取景范围与定位边界，即可输出完整布局、只有地图框的版本和纯地图内容。定位文字放在圆形下部内部；中心坐标只用于取景。图例与比例尺位于图框内，底板分别为 34% 和 40% 透明度。虚线经纬网、真北指针和米制比例尺均关联真实地图框。
+**0.3.0** 使用选定的柔和湿墨底稿与独立纸纹，保留浓淡自然交融、大块墨色过渡和轻微纸感。透明白墨图片、半透明底色与纸纹分层保存；制图直接复用 PNG，用户无需运行湿媒体引擎或流体仿真。默认采用较淡外缘和112点墨纹。`atlas`：配置图层、取景范围与定位边界，即可输出完整布局、只有地图框的版本和纯地图内容。定位文字放在圆形下部内部；中心坐标只用于取景。图例与比例尺位于图框内，底板分别为 34% 和 40% 透明度。虚线经纬网、真北指针和米制比例尺均关联真实地图框。
 
 ## 安装
 
-下载：[Python wheel](releases/0.2.0/inkmap_arcpy-0.2.0-py3-none-any.whl) · [独立 Agent skill ZIP](releases/0.2.0/arcpy-watercolor-map.zip) · [源码 ZIP](releases/0.2.0/inkmap-source.zip) · [SHA256 清单](releases/0.2.0/checksums.json)。
+下载：[Python wheel](releases/0.3.0/inkmap_arcpy-0.3.0-py3-none-any.whl) · [独立 Agent skill ZIP](releases/0.3.0/arcpy-watercolor-map.zip) · [源码 ZIP](releases/0.3.0/inkmap-source.zip) · [SHA256 清单](releases/0.3.0/checksums.json)。
+
+[三城数据与复用资源包](releases/0.3.0/inkmap-toolkit-three-cities.zip) 提供福州鼓楼、上海外滩与洛杉矶回声湖共31个GeoJSON图层、导入脚本、安装包和使用说明。地理数据采用ODbL，与MIT程序许可分开；社区与街区名称点用于标注，不代表完整行政边界。解压后在Pro Python中运行 `python import_sample_data.py --city shanghai --output ./work-shanghai`，再用 `python -m inkmap_arcpy atlas ./work-shanghai/job.json --dry-run` 检查。
 
 需要 Windows、已授权的 ArcGIS Pro 3.x 及其 Python 环境。已在 Pro **3.0 Advanced** 实际运行；其他小版本需要复测。包无额外运行依赖，ArcPy 由 Pro 提供。
 
 ```powershell
 # 在 ArcGIS Pro Python Command Prompt 或其克隆环境中运行
-python -m pip install --no-deps .\skills\arcpy-watercolor-map\assets\inkmap_arcpy-0.2.0-py3-none-any.whl
+python -m pip install --no-deps .\skills\arcpy-watercolor-map\assets\inkmap_arcpy-0.3.0-py3-none-any.whl
 python -m inkmap_arcpy doctor
 ```
 
@@ -55,7 +57,7 @@ from inkmap_arcpy import apply_style
 p = arcpy.mp.ArcGISProject('CURRENT')  # 仅 Pro 内部 Python 窗口 / Notebook
 m = next(m for m in p.listMaps() if m.name == 'Map')
 water = next(l for l in m.listLayers() if l.longName == 'Water')
-apply_style(water, 'water', palette='watercolor', texture_size=95)
+apply_style(water, 'water', palette='watercolor', texture_size=112)
 p.saveACopy(r'D:\GIS\watercolor.aprx')
 ```
 
@@ -69,7 +71,7 @@ p.saveACopy(r'D:\GIS\watercolor.aprx')
 | boundary / buffer | 线 | 边界虚线 / 距离圈虚线 |
 | station / site | 点 | 圆形站点 / 十字场地 |
 
-水体与绿地使用常规描边、渐变晕染、白色透明水彩纹理、半透明颜色及纸纹五层符号，图片以 base64 嵌入。纹理尺寸单位是点。`palette='ink'` 切换灰墨配色；`wash_path` / `paper_path` 可指定自有方形无缝纹理。`distance_rings` 返回投影坐标系中的米制欧氏距离圈；不计算路网可达范围。
+水体与绿地使用淡描边、渐变外缘、纯白 RGB 与变化 alpha 的湿墨纹理、半透明底色及独立纸纹五层符号，图片以 base64 嵌入。墨纹不主动追加咖啡环或细密颗粒；纸纹尺度为墨纹的0.64倍。尺寸单位是点。`palette='ink'` 切换灰墨配色；`wash_path` / `paper_path` 可指定自有方形无缝纹理。`distance_rings` 返回投影坐标系中的米制欧氏距离圈；不计算路网可达范围。
 
 ## 福州鼓楼案例
 
@@ -77,11 +79,15 @@ p.saveACopy(r'D:\GIS\watercolor.aprx')
 
 街区数据署名与许可见 [OpenStreetMap / ODbL](https://www.openstreetmap.org/copyright)；定位边界来源与使用说明见 [DataV GeoAtlas](https://datav.aliyun.com/portal/school/atlas/atlas_aigc)。仓库不包含这些源数据缓存，示例图保留来源说明。地图不是官方测绘成果。
 
+## 上海与洛杉矶案例
+
+[真实数据、城市装帧与复现流程](examples/two_cities/README.md)。包默认 A4；社交页面和上海几何、洛杉矶棕榈装帧在案例脚本中以原生 CIM 扩展。
+
 ## AI Agent skill
 
-把整个 [skills/arcpy-watercolor-map](skills/arcpy-watercolor-map) 文件夹复制到 Agent 的 skills 目录，例如 Codex 的 `~/.codex/skills/`。内附 0.2.0 wheel 与配置、风格和检查流程，可独立使用。
+把整个 [skills/arcpy-watercolor-map](skills/arcpy-watercolor-map) 文件夹复制到 Agent 的 skills 目录，例如 Codex 的 `~/.codex/skills/`。内附 0.3.0 wheel 与配置、风格和检查流程，可独立使用。
 
-> 使用 $arcpy-watercolor-map，按典雅水彩风格制作我的 ArcGIS Pro 区位图。定位说明放在圈内下部，导出完整图与地图框版。
+> 使用 $arcpy-watercolor-map，按水墨泼染风格制作我的 ArcGIS Pro 区位图。水墨和纸纹独立叠放，定位说明放在圈内下部，导出完整图与地图框版。
 
 ## 验证与发布
 
@@ -89,10 +95,10 @@ p.saveACopy(r'D:\GIS\watercolor.aprx')
 python -m unittest discover -s tests -p 'test_*.py' -v
 # Pro Python：检查原生关联、定位文字位置、重载连接与导出
 python tests/pro_atlas_check.py 'D:\GIS\atlas-output'
-# 开发环境需 setuptools + wheel；再生成纹理另需 NumPy + Pillow
+# 开发环境需 setuptools + wheel；默认使用已确认的 PNG 素材
 python scripts/build_release.py
 ```
 
-构建生成 0.2.0 wheel、独立 skill ZIP、源代码 ZIP 与 SHA256 清单。程序及默认原创周期纹理采用 MIT。参考文档里的旧纹理、旧安装包与带旧纹理的私人示例不进入公开发布。外部 GIS 数据及自定义素材的许可独立于代码。
+构建生成 0.3.0 wheel、独立 skill ZIP、源代码 ZIP 与 SHA256 清单。程序与所选预生成水墨、纸纹素材采用 MIT；实际尺寸为512×512，未冒称原生高清或完全无缝。源码保留沉积场和纸面高度，可用 `scripts/extract_selected_materials.py` 复现素材提取；此开发步骤不是制图依赖。来源、参数及第三方署名见 [素材说明](src/inkmap_arcpy/assets/NOTICE.md)。参考文档里的旧纹理、旧安装包与带旧纹理的私人示例不进入公开发布。外部 GIS 数据及自定义素材的许可独立于代码。
 
 技术参考：[Esri Python CIM access](https://doc.esri.com/en/arcgis-pro/latest/arcpy/mapping/python-cim-access.html)、[CIM Symbols](https://github.com/Esri/cim-spec/blob/main/docs/v3/CIMSymbols.md)。不支持 ArcMap、三维场景、云端 ArcGIS API for Python 或 AgentPy 仿真库。

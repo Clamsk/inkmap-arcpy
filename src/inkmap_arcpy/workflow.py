@@ -38,7 +38,7 @@ def style_project(config, dry_run=False):
     roles = config["layers"]
     if not roles or not isinstance(roles, dict):
         raise ValueError("layers must map exact layer longName to a role")
-    texture_size = config.get("texture_size", 72)
+    texture_size = config.get("texture_size", 112)
     if not isinstance(texture_size, (float, int)) or not math.isfinite(texture_size) or texture_size <= 0:
         raise ValueError("texture_size must be positive and finite")
     replace = config.get("replace_renderer", False)

@@ -3,6 +3,7 @@ import json
 import math
 import os
 from pathlib import Path
+from . import __version__
 from .symbols import arcpy_module, apply_style, validate_layer, cim, stroke, fill
 from .workflow import unique
 from .layout_primitives import (INK, MUTED, PAPER, ref, polygon, text, line, rectangle,
@@ -38,7 +39,7 @@ def validate_atlas_config(config):
         not -180<=center[0]<=180 or not -85<=center[1]<=85):
         raise ValueError("center must be finite WGS84 [longitude, latitude] within -180..180 / -85..85")
     for key,default,minimum,maximum in [("scale",None,100,1e8),("grid_seconds",30,1,3600),
-                                       ("dpi",240,72,1200),("texture_size",95,1,1000),
+                                       ("dpi",240,72,1200),("texture_size",112,1,1000),
                                        ("legend_transparency",34,0,90),("scale_transparency",40,0,90)]:
         value = config.get(key,default)
         if isinstance(value,bool) or not isinstance(value,(int,float)) or not math.isfinite(value) or not minimum<=value<=maximum:
@@ -127,7 +128,7 @@ def compose_atlas(config,dry_run=False):
     out = Path(os.path.abspath(config["output_folder"]))
     if out.exists():
         raise FileExistsError(f"Use a new output folder: {out}")
-    report = {"version":"0.2.0","output_folder":str(out),"title":config["title"],
+    report = {"version":__version__,"output_folder":str(out),"title":config["title"],
               "center_wgs84":config["center"],"center_marker":False,"scale":config["scale"],
               "projection":sr.name,"bindings":{name:d["role"] for name,layer,d in bindings},
               "locator_count":len(config.get("locators",[])),"dry_run":dry_run}
@@ -164,7 +165,7 @@ def compose_atlas(config,dry_run=False):
         layer = m.addDataFromPath(target)
         layer.name = name
         role = descriptor["role"]
-        apply_style(layer,role,config.get("palette","watercolor"),config.get("texture_size",95))
+        apply_style(layer,role,config.get("palette","watercolor"),config.get("texture_size",112))
         if "fill_opacity" in descriptor or "outline_opacity" in descriptor:
             definition = layer.getDefinition("V3")
             for symbol in definition.renderer.symbol.symbol.symbolLayers:
@@ -211,7 +212,7 @@ def compose_atlas(config,dry_run=False):
             cursor.insertRow([arcpy.Polygon(ring,sr)])
         paper=m.addDataFromPath(fc)
         paper.name="Paper background"
-        apply_style(paper,"paper",texture_size=config.get("texture_size",95))
+        apply_style(paper,"paper",texture_size=config.get("texture_size",112))
         m.moveLayer(m.listLayers()[-1],paper,"AFTER")
     d=layout.getDefinition("V3")
     main_def=next(e for e in d.elements if e.name==frame.name)
@@ -319,7 +320,7 @@ def compose_atlas(config,dry_run=False):
     report.update({"feature_counts":counts,"grid_labels":label_count,"scale_bar_meters":total,
                    "project":str(out/"atlas.aprx"),"broken_layers":broken,
                    "exports":["atlas_full.png","atlas_full.pdf","atlas_frame.png","atlas_frame.pdf","atlas_map_only.png"],
-                   "textures":"Original periodic generated textures, MIT"})
+                  "textures":"Selected soft wet-ink and independent paper PNG, MIT; see assets/material.json"})
     (out/"atlas_report.json").write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8")
     return report
 

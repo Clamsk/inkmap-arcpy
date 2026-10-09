@@ -1,0 +1,18 @@
+{
+  "arcpy-watercolor-map.zip": {
+    "bytes": 440507,
+    "sha256": "74b1e77425935e603bc098fc4d6e6930a3c5f9a8bc9620e712e4de2681b609a1"
+  },
+  "inkmap-source.zip": {
+    "bytes": 19183161,
+    "sha256": "5b4eb9f01a46a43d1cc53f5169edfd8497a08a97ba633d9cbd9b8644282496ea"
+  },
+  "inkmap-toolkit-three-cities.zip": {
+    "bytes": 26702451,
+    "sha256": "40a2c2ab99f18e845f751375ebad001d2e57e58ee8489d97c8e6bfd90240abf3"
+  },
+  "inkmap_arcpy-0.3.0-py3-none-any.whl": {
+    "bytes": 431607,
+    "sha256": "f48ef28e8dbd7e32261a481c3027a403b0519d6031a8e22e00196d7472d16e4b"
+  }
+}

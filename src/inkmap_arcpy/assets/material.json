@@ -1,0 +1,40 @@
+{
+  "selection": "Original soft wet-ink wash selected by user on 2026-10-09; no added coffee-ring layers or new pigment fields.",
+  "pixels": [
+    512,
+    512
+  ],
+  "white_rgb": [
+    255,
+    255,
+    255
+  ],
+  "alpha_curve": {
+    "white_rgb": [
+      255,
+      255,
+      255
+    ],
+    "grid": [
+      512,
+      512
+    ],
+    "alpha_max": 0.74,
+    "density_scale": 1.198373556137085,
+    "transfer": "white_alpha = .74 * exp(-1.6 * total_deposit / density_scale)",
+    "alpha_quantiles": [
+      0.033014699816703796,
+      0.10700644850730896,
+      0.267553374171257,
+      0.491740682721138,
+      0.7400000095367432
+    ],
+    "extraction": "Artist-controlled inverse-density channel; not a calibrated optical law.",
+    "paper": "Separate relief texture from the wet-media engine paper height field."
+  },
+  "simulation_origin": "Existing Washes wet-media engine; artistic model, not calibrated Chinese-ink CFD.",
+  "asset_sha256": {
+    "generated-wet-ink.png": "5dfd71839da68bb8a37d233a63839b41e47e8eaaab638d64304cb93620d56e97",
+    "generated-white-paper.png": "63251e5ba57ccc6db3bc489322628c6474604c5d47d713f556ffc668a21e0e2d"
+  }
+}

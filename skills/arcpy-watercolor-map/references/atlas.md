@@ -1,4 +1,4 @@
-# 完整典雅版式（0.2.0）
+# 完整典雅版式（0.3.0）
 
 Pro Python 中安装附带 wheel，运行 `doctor`、`inspect`。所有文件相对 JSON 所在目录解析。
 
@@ -37,7 +37,7 @@ python -m inkmap_arcpy atlas job.json
 
 绑定列表按底到顶绘制。角色几何检查、唯一名、有效坐标系、标签字段、定位代码与输出目录检查通过后才写数据。输出目录不能已存在，包括失败残留目录；修复后选择新目录。
 
-可选：`palette`（watercolor / ink），`dpi`（默认240），`texture_size`（默认95点），`caption`（标题下小注）。描述项可设 `fill_opacity`、`outline_opacity`（0..100为不透明度）、`label_font`、`label_size`、`label_color`（RGB）、`label_priority`。默认不提供纸层时自动添加纸底。`legend_transparency` / `scale_transparency` 为透明度，越高越透明。图例最多十项。
+可选：`palette`（watercolor / ink），`dpi`（默认240），`texture_size`（默认112点），`caption`（标题下小注）。描述项可设 `fill_opacity`、`outline_opacity`（0..100为不透明度）、`label_font`、`label_size`、`label_color`（RGB）、`label_priority`。默认不提供纸层时自动添加纸底。`legend_transparency` / `scale_transparency` 为透明度，越高越透明。图例最多十项。
 
 定位 GeoJSON 需 FeatureCollection、真实 Polygon/MultiPolygon、唯一高亮代码。字段默认 `adcode` / `name`，可改 `code_field` / `name_field`；坐标按 WGS84 GeoJSON 读取。默认定位投影为102012。最多三个定位圈；福建/福州案例使用32650，省网格1度、市0.5度。说明文字固定在圆心下方1.07厘米处，圆内下部；不存在圈外副标题。
 

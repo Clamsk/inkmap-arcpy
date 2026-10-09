@@ -2,7 +2,7 @@
   "project": "input.aprx",
   "map": "Map",
   "palette": "watercolor",
-  "texture_size": 72,
+  "texture_size": 112,
   "replace_renderer": false,
   "layers": {
     "Water": "water",

@@ -1,4 +1,4 @@
-# 福州鼓楼 · 0.2.0 水彩案例
+# 福州鼓楼 · 0.3.0 柔和湿墨案例
 
 范围为福州中心城区局部，取景中心在鼓楼南街附近（119.294°E、26.086°N），只用于相机定位，图上无中心标记。EPSG:32650，1:21,000，A4竖版。定位文字在圆内下部，三圈依次为全国—福建、福建—福州、福州—鼓楼。
 
@@ -32,7 +32,7 @@ python examples/fuzhou/download_locators.py
 python examples/fuzhou/prepare_data.py
 ```
 
-然后在已授权的 **Pro Python** 中运行，先安装0.2.0 wheel，或把源码`src`加入PYTHONPATH：
+然后在已授权的 **Pro Python** 中运行，先安装0.3.0 wheel，或把源码`src`加入PYTHONPATH：
 
 ```powershell
 # 建立一次基础地图项目；输出用新目录

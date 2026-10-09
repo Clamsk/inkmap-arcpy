@@ -20,3 +20,6 @@ skills/*/assets/inkmap_arcpy-0.1.0*.whl
 examples/fuzhou/build_gulou_v*.py
 examples/fuzhou/package_*.py
 examples/fuzhou/validate_gulou_v*.py
+examples/two_cities/data/
+examples/two_cities/render-*/
+deliverables/
